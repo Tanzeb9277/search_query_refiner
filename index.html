@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Query Refiner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8e7e2;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #b3ada0;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 3px 5px 10px #443f37;
+        }
+        h2 {
+            color: #443f37;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #96836f;
+            border-radius: 10px;
+            background: #e8e7e2;
+            color: #443f37;
+            font-size: 16px;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8e7e2;
+            border-radius: 10px;
+            box-shadow: inset 1px 3px 6px #443f37;
+            font-weight: bold;
+            color: #443f37;
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn--container {
+            background-color: #b3ada0;
+            width: 200px;
+            height: 85px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50px;
+            box-shadow: inset 1px 3px 6px 0px #443f37;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            margin: auto;
+        }
+        .btn--container:hover {
+            background-color: #ffaa00;
+        }
+        .btn--container.selected {
+            background-color: #ffcc66;
+        }
+        .btn:hover {
+            color: #ffaa00;
+        }
+        .btn:active {
+            box-shadow: none;
+        }
+        .btn {
+            background: #e8e7e2;
+            width: 85%;
+            height: 70%;
+            text-align: center;
+            line-height: 360%;
+            border-radius: 30px;
+            box-shadow: 1px 3px 6px 1px #443f37;
+            font-weight: 600;
+            color: #96836f;
+            transition: all 0.3s ease-in-out;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Search Query Refiner</h2>
+        <input type="text" id="searchQuery" placeholder="Enter search term">
+        
+        <div class="buttons">
+            <div class="btn--container" id="medicalBtn" onclick="generateQuery('medical', this)"><button class="btn">Medical</button></div>
+            <div class="btn--container" id="politicalBtn" onclick="generateQuery('political', this)"><button class="btn">Political</button></div>
+        </div>
+        
+        <div class="output" id="output"></div>
+        <div class="buttons">
+            <div class="btn--container" onclick="copyToClipboard()"><button class="btn">Copy</button></div>
+            <div class="btn--container" onclick="searchGoogle()"><button class="btn">Google It</button></div>
+        </div>
+    </div>
+
+    <script>
+        let refinedQuery = "";
+        let selectedButton = null;
+
+        function generateQuery(category, btn) {
+            let query = document.getElementById("searchQuery").value;
+            if (!query) return;
+            
+            refinedQuery = query;
+            
+            if (category === "medical") {
+                refinedQuery += " site:gov OR site:edu OR site:who.int OR site:mayoclinic.org";
+            } else if (category === "political") {
+                refinedQuery += " site:gov OR site:bbc.com OR site:npr.org OR site:reuters.com";
+            }
+            
+            document.getElementById("output").innerText = "Refined Query: " + refinedQuery;
+            
+            if (selectedButton) {
+                selectedButton.classList.remove("selected");
+            }
+            btn.classList.add("selected");
+            selectedButton = btn;
+        }
+
+        function copyToClipboard() {
+            if (!refinedQuery) return;
+            navigator.clipboard.writeText(refinedQuery);
+        }
+
+        function searchGoogle() {
+            if (!refinedQuery) return;
+            window.open("https://www.google.com/search?q=" + encodeURIComponent(refinedQuery), "_blank");
+        }
+    </script>
+</body>
+</html>
