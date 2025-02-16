@@ -11,13 +11,29 @@
         <h2>Search Query Refiner</h2>
         <input type="text" id="searchQuery" placeholder="Enter search term">
         
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+        
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate">
+        
         <div class="buttons">
             <div class="btn--container" id="medicalBtn" onclick="generateQuery('medical', this)"><button class="btn">Medical</button></div>
             <div class="btn--container" id="politicalBtn" onclick="generateQuery('political', this)"><button class="btn">Political</button></div>
         </div>
         
+        <div id="biasSelection" style="display: none;">
+            <h3>Select Political Source Bias</h3>
+            <div class="buttons">
+                <div class="btn--container" id="leftBtn" onclick="selectBias('left', this)"><button class="btn">Left</button></div>
+                <div class="btn--container" id="centerBtn" onclick="selectBias('center', this)"><button class="btn">Center</button></div>
+                <div class="btn--container" id="rightBtn" onclick="selectBias('right', this)"><button class="btn">Right</button></div>
+            </div>
+        </div>
+        
         <div class="output" id="output"></div>
         <div class="buttons">
+            <div class="btn--container" onclick="generateFinalQuery()"><button class="btn">Refine Search</button></div>
             <div class="btn--container" onclick="copyToClipboard()"><button class="btn">Copy</button></div>
             <div class="btn--container" onclick="searchGoogle()"><button class="btn">Google It</button></div>
         </div>
